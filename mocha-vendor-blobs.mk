@@ -73,8 +73,8 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/lib/hw/lights.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/lights.tegra.so \
     vendor/xiaomi/mocha/proprietary/lib/libsensors.lsm6db0.so:$(TARGET_COPY_OUT_VENDOR)/lib/libsensors.lsm6db0.so \
     vendor/xiaomi/mocha/proprietary/lib/libsensors.mpu6515.so:$(TARGET_COPY_OUT_VENDOR)/lib/libsensors.mpu6515.so \
-    vendor/xiaomi/mocha/proprietary/lib/hw/ts.default.so:system/lib/hw/ts.default.so \
     vendor/xiaomi/mocha/proprietary/lib/libFaceProc.so:system/lib/libFaceProc.so \
+    vendor/xiaomi/mocha/proprietary/lib/hw/ts.default.so:system/lib/hw/ts.default.so \
     vendor/xiaomi/mocha/proprietary/lib/libbeautify.so:system/lib/libbeautify.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libbt-client-api.so:$(TARGET_COPY_OUT_VENDOR)/lib/libbt-client-api.so \
     vendor/xiaomi/mocha/proprietary/lib/libinvensense_hal.so:system/lib/libinvensense_hal.so \
@@ -100,7 +100,6 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/bin/touch_fusion_rd:$(TARGET_COPY_OUT_VENDOR)/bin/touch_fusion_rd \
     vendor/xiaomi/mocha/proprietary/vendor/bin/ss_status:$(TARGET_COPY_OUT_VENDOR)/bin/ss_status \
     vendor/xiaomi/mocha/proprietary/vendor/lib/drm/libdrmwvmplugin.so:$(TARGET_COPY_OUT_VENDOR)/lib/drm/libdrmwvmplugin.so \
-    vendor/xiaomi/mocha/proprietary/vendor/lib/hw/audio.primary.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/audio.primary.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/gralloc.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/gralloc.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/hwcomposer.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/hwcomposer.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/hdmi_cec.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/hdmi_cec.tegra.so \
@@ -110,6 +109,7 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/vulkan.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/vulkan.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/keystore.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/keystore.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/power.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/power.tegra.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/hw/sound_trigger.primary.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/sound_trigger.primary.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libEGL_perfhud.so:$(TARGET_COPY_OUT_VENDOR)/lib/libEGL_perfhud.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libEGL_tegra_impl.so:$(TARGET_COPY_OUT_VENDOR)/lib/libEGL_tegra_impl.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libGLESv1_CM_tegra_impl.so:$(TARGET_COPY_OUT_VENDOR)/lib/libGLESv1_CM_tegra_impl.so \
@@ -140,6 +140,7 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libjni-nvwfd-sink.so:$(TARGET_COPY_OUT_VENDOR)/lib/libjni-nvwfd-sink.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libjni_nvremote.so:$(TARGET_COPY_OUT_VENDOR)/lib/libjni_nvremote.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libjni_nvremoteprotopkg.so:$(TARGET_COPY_OUT_VENDOR)/lib/libjni_nvremoteprotopkg.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libim501.so:$(TARGET_COPY_OUT_VENDOR)/lib/libim501.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvapputil.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvapputil.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvasfparserhal.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvasfparserhal.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvaudioservice.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvaudioservice.so \
@@ -244,5 +245,13 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/lib/libLLVM.so:system/lib/libLLVM.so \
     vendor/xiaomi/mocha/proprietary/etc/ussrd.conf:system/etc/ussrd.conf \
     vendor/xiaomi/mocha/proprietary/vendor/bin/ussrd:$(TARGET_COPY_OUT_VENDOR)/bin/ussrd \
-
-
+    vendor/xiaomi/mocha/proprietary/vendor/lib/cp_pgm_one_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_pgm_one_dap_lib.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/cp_pgm_two_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_pgm_two_dap_lib.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/cp_sys_one_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_sys_one_dap_lib.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/cp_sys_two_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_sys_two_dap_lib.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/ddp_enc_lib_ac3.so:$(TARGET_COPY_OUT_VENDOR)/lib/ddp_enc_lib_ac3.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/ddp_enc_lib_eac3.so:$(TARGET_COPY_OUT_VENDOR)/lib/ddp_enc_lib_eac3.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/ddp_udc_lib_ac3.so:$(TARGET_COPY_OUT_VENDOR)/lib/ddp_udc_lib_ac3.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/ddp_udc_lib_ec3.so:$(TARGET_COPY_OUT_VENDOR)/lib/ddp_udc_lib_ec3.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/dp_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/dp_dap_lib \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/soundfx/libnvvisualizer.so:$(TARGET_COPY_OUT_VENDOR)/lib/soundfx/libnvvisualizer.so \
