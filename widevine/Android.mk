@@ -15,17 +15,6 @@
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := libnvos
-LOCAL_SRC_FILES := lib/libnvos.so
-LOCAL_MODULE_SUFFIX := .so
-LOCAL_MODULE_CLASS := SHARED_LIBRARIES
-LOCAL_MODULE_TARGET_ARCH := arm
-LOCAL_MODULE_PATH := $($(TARGET_2ND_ARCH_VAR_PREFIX)TARGET_OUT_VENDOR_SHARED_LIBRARIES)
-LOCAL_MODULE_TAGS := optional
-LOCAL_MODULE_OWNER := nvidia
-include $(BUILD_PREBUILT)
-
-include $(CLEAR_VARS)
 LOCAL_MODULE               := android.hardware.drm@1.1-service.widevine
 LOCAL_SRC_FILES_32         := bin32/hw/android.hardware.drm@1.1-service.widevine
 LOCAL_MULTILIB             := 32
