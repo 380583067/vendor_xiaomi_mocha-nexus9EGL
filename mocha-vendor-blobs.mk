@@ -22,7 +22,7 @@ $(call inherit-product, vendor/xiaomi/mocha/widevine/widevine.mk)
 PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/etc/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt \
     vendor/xiaomi/mocha/proprietary/etc/enctune.conf:system/etc/enctune.conf \
-    vendor/xiaomi/mocha/proprietary/etc/firmware/BCM4350C0.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/BCM4350C0.hcd \
+    vendor/xiaomi/mocha/proprietary/vendor/firmware/BCM4350C0.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/BCM4350C0.hcd \
     vendor/xiaomi/mocha/proprietary/etc/firmware/bq27520_atl.bqfs:system/etc/firmware/bq27520_atl.bqfs \
     vendor/xiaomi/mocha/proprietary/etc/firmware/bq27520_lgc.bqfs:system/etc/firmware/bq27520_lgc.bqfs \
     vendor/xiaomi/mocha/proprietary/etc/firmware/lp5521:system/etc/firmware/lp5521 \
@@ -80,6 +80,8 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/lib/libinvensense_hal.so:system/lib/libinvensense_hal.so \
     vendor/xiaomi/mocha/proprietary/lib/libmllite.so:system/lib/libmllite.so \
     vendor/xiaomi/mocha/proprietary/lib/libmplmpu.so:system/lib/libmplmpu.so \
+    vendor/xiaomi/mocha/proprietary/lib/libprotobuf-cpp-lite.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite-3.9.1.so \
+    vendor/xiaomi/mocha/proprietary/lib/libprotobuf-cpp-full.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-full-v29.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvoice.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvoice.so \
     vendor/xiaomi/mocha/proprietary/lib/libopencv24_tegra.so:system/lib/libopencv24_tegra.so \
     vendor/xiaomi/mocha/proprietary/lib/librm31080.so:system/lib/librm31080.so \
@@ -95,6 +97,8 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/bin/nvcgcserver:$(TARGET_COPY_OUT_VENDOR)/bin/nvcgcserver \
     vendor/xiaomi/mocha/proprietary/vendor/bin/pbc:$(TARGET_COPY_OUT_VENDOR)/bin/pbc \
     vendor/xiaomi/mocha/proprietary/vendor/bin/tegrastats:$(TARGET_COPY_OUT_VENDOR)/bin/tegrastats \
+    vendor/xiaomi/mocha/proprietary/vendor/bin/run_ss_status.sh:$(TARGET_COPY_OUT_VENDOR)/bin/run_ss_status.sh \
+    vendor/xiaomi/mocha/proprietary/vendor/bin/eks2_client:$(TARGET_COPY_OUT_VENDOR)/bin/eks2_client \
     vendor/xiaomi/mocha/proprietary/vendor/bin/tlk_daemon:$(TARGET_COPY_OUT_VENDOR)/bin/tlk_daemon \
     vendor/xiaomi/mocha/proprietary/vendor/bin/touch_fusion:$(TARGET_COPY_OUT_VENDOR)/bin/touch_fusion \
     vendor/xiaomi/mocha/proprietary/vendor/bin/touch_fusion_rd:$(TARGET_COPY_OUT_VENDOR)/bin/touch_fusion_rd \
@@ -241,10 +245,12 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvcamlog.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvcamlog.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvcamv4l2.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvcamv4l2.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libnvhdcp.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvhdcp.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libnvsi_ll_2.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvsi_ll_2.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libscf.so:$(TARGET_COPY_OUT_VENDOR)/lib/libscf.so \
     vendor/xiaomi/mocha/proprietary/lib/libLLVM.so:system/lib/libLLVM.so \
     vendor/xiaomi/mocha/proprietary/etc/ussrd.conf:system/etc/ussrd.conf \
     vendor/xiaomi/mocha/proprietary/vendor/bin/ussrd:$(TARGET_COPY_OUT_VENDOR)/bin/ussrd \
+    vendor/xiaomi/mocha/proprietary/vendor/etc/audio_effects.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.conf \
     vendor/xiaomi/mocha/proprietary/vendor/lib/cp_pgm_one_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_pgm_one_dap_lib.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/cp_pgm_two_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_pgm_two_dap_lib.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/cp_sys_one_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/cp_sys_one_dap_lib.so \
@@ -255,5 +261,27 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/ddp_udc_lib_ec3.so:$(TARGET_COPY_OUT_VENDOR)/lib/ddp_udc_lib_ec3.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/dp_dap_lib.so:$(TARGET_COPY_OUT_VENDOR)/lib/dp_dap_lib \
     vendor/xiaomi/mocha/proprietary/vendor/lib/soundfx/libnvvisualizer.so:$(TARGET_COPY_OUT_VENDOR)/lib/soundfx/libnvvisualizer.so \
-    vendor/xiaomi/mocha/proprietary/vendor/lib/libprotobuf-cpp-lite-v33.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite-v33.so
-
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libprotobuf-cpp-lite-v33.so:$(TARGET_COPY_OUT_VENDOR)/lib/libprotobuf-cpp-lite-v33.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libavcodec.so:$(TARGET_COPY_OUT_VENDOR)/lib/libavcodec.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libavformat.so:$(TARGET_COPY_OUT_VENDOR)/lib/libavformat.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libavutil.so:$(TARGET_COPY_OUT_VENDOR)/lib/libavutil.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libffmpeg_extractor.so:$(TARGET_COPY_OUT_VENDOR)/lib/libffmpeg_extractor.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libffmpeg_omx.so:$(TARGET_COPY_OUT_VENDOR)/lib/libffmpeg_omx.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libffmpeg_utils.so:$(TARGET_COPY_OUT_VENDOR)/lib/libffmpeg_utils.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libswresample.so:$(TARGET_COPY_OUT_VENDOR)/lib/libswresample.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libswscale.so:$(TARGET_COPY_OUT_VENDOR)/lib/libswscale.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libswresample.so:$(TARGET_COPY_OUT_VENDOR)/lib/libswresample.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libclcore_nvidia.bc:$(TARGET_COPY_OUT_VENDOR)/lib/libclcore_nvidia.bc \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libconnctrl.so:$(TARGET_COPY_OUT_VENDOR)/lib/libconnctrl.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libcsm_data.so:$(TARGET_COPY_OUT_VENDOR)/lib/libcsm_data.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libdatactrl.so:$(TARGET_COPY_OUT_VENDOR)/lib/libdatactrl.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libfrsdk.so:$(TARGET_COPY_OUT_VENDOR)/lib/libfrsdk.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libhtcacoustic.so:$(TARGET_COPY_OUT_VENDOR)/lib/libhtcacoustic.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libLifevibes_lvverx.so:$(TARGET_COPY_OUT_VENDOR)/lib/libLifevibes_lvverx.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libLifevibes_lvvetx.so:$(TARGET_COPY_OUT_VENDOR)/lib/libLifevibes_lvvetx.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libmdmdetect.so:$(TARGET_COPY_OUT_VENDOR)/lib/libmdmdetect.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libnvptx.so:$(TARGET_COPY_OUT_VENDOR)/lib/libnvptx.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libopencv24_tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/libopencv24_tegra.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libperipheral_client.so:$(TARGET_COPY_OUT_VENDOR)/lib/libperipheral_client.so \
+    vendor/xiaomi/mocha/proprietary/vendor/firmware/maxim_fp35.bin:$(TARGET_COPY_OUT_VENDOR)/firmware/maxim_fp35.bin \
+    vendor/xiaomi/mocha/proprietary/vendor/firmware/touch_fusion.cfg:$(TARGET_COPY_OUT_VENDOR)/firmware/touch_fusion.cfg \
