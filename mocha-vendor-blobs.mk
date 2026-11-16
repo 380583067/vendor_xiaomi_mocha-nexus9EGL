@@ -19,6 +19,32 @@ $(call inherit-product, vendor/xiaomi/mocha/widevine/widevine.mk)
 
 
 # Blob
+#
+# Camera note - about libbeautify.so:
+#   The PRODUCT_COPY_FILES block below deliberately does not ship the stock
+#   vendor/xiaomi/mocha/proprietary/lib/libbeautify.so.
+#   Reason: libbeautify.so has libFaceProc.so in its DT_NEEDED, and that
+#   library contains TEXTREL, which the Android 6+ (API >= 23) linker refuses
+#   to load at all:
+#       dlopen failed: "/system/lib/libFaceProc.so" has text relocations
+#   That breaks the whole dependency chain of camera.vendor.tegra.so and the
+#   camera ends up reporting zero devices.
+#   Measurements show camera.vendor.tegra.so only really uses 17 symbols from
+#   libbeautify (SkinBeautifier::* / RecoFace* / android::Watermark - all of
+#   them beauty / face / watermark effects), and neither preview, capture, 3A,
+#   flash, HDR nor video recording go through them. Those symbols are provided
+#   by device/xiaomi/mocha/camera/libbeautify_stub.cpp as safe no-op
+#   implementations, built as /system/lib/libbeautify.so of the same name (see
+#   the libbeautify module in camera/Android.mk and PRODUCT_PACKAGES in
+#   mocha.mk).
+#   To revert: drop the libbeautify module from camera/Android.mk and its
+#   PRODUCT_PACKAGES entry in mocha.mk, then add this line back here:
+#       vendor/xiaomi/mocha/proprietary/lib/libbeautify.so:system/lib/libbeautify.so \
+#   (The stock blob itself is untouched and still in proprietary/lib/.)
+#
+# NOTE: this file is one huge continuation-line assignment - every line but the
+#       last ends with a backslash, so no comment line may be inserted inside
+#       the block, it would swallow every following entry.
 PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/etc/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt \
     vendor/xiaomi/mocha/proprietary/etc/enctune.conf:system/etc/enctune.conf \
@@ -75,7 +101,6 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/lib/libsensors.mpu6515.so:$(TARGET_COPY_OUT_VENDOR)/lib/libsensors.mpu6515.so \
     vendor/xiaomi/mocha/proprietary/lib/libFaceProc.so:system/lib/libFaceProc.so \
     vendor/xiaomi/mocha/proprietary/lib/hw/ts.default.so:system/lib/hw/ts.default.so \
-    vendor/xiaomi/mocha/proprietary/lib/libbeautify.so:system/lib/libbeautify.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libbt-client-api.so:$(TARGET_COPY_OUT_VENDOR)/lib/libbt-client-api.so \
     vendor/xiaomi/mocha/proprietary/lib/libinvensense_hal.so:system/lib/libinvensense_hal.so \
     vendor/xiaomi/mocha/proprietary/lib/libmllite.so:system/lib/libmllite.so \
