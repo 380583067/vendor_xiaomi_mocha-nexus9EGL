@@ -12,20 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Every prebuilt under proprietary/ is installed either through
-# mocha-vendor-blobs.mk (PRODUCT_COPY_FILES) or through widevine/Android.mk.
+# proprietary/ 下的所有预编译文件，要么由 mocha-vendor-blobs.mk 通过
+# PRODUCT_COPY_FILES 安装，要么由 widevine/Android.mk 安装，这里不再定义模块。
 #
-# Two prebuilt APKs used to be defined here: SimpleKeyboard
-# (app/keyboard/keyboard.apk) and OpenCamera
-# (app/net.sourceforge.opencamera/net.sourceforge.opencamera.apk). Neither
-# module was ever listed in PRODUCT_PACKAGES, so neither APK ever reached the
-# image - they were 47 MB of dead weight in the repository. Both APKs and their
-# module definitions have been removed; the stock AOSP keyboard and the LineageOS
-# camera app are used instead.
+# 原先这里还定义过两个预编译 APK 模块：SimpleKeyboard
+# （app/keyboard/keyboard.apk）和 OpenCamera
+# （app/net.sourceforge.opencamera/net.sourceforge.opencamera.apk）。
+# 但这两个模块从来没有进过 PRODUCT_PACKAGES，也就是说它们永远不会被装进
+# 系统镜像，纯粹是仓库里 47MB 的死重量。现在 APK 和模块定义一起删掉了，
+# 键盘用 AOSP 自带的，相机用 LineageOS 自带的。
 #
-# Keep this file (even though it defines no modules): vendor/xiaomi/mocha/
-# Android.mk includes every subdirectory with all-makefiles-under, so removing
-# the file would not break the build, but keeping it documents where the blobs
-# come from.
+# 这个文件即使不定义任何模块也保留：vendor/xiaomi/mocha/Android.mk 用
+# all-makefiles-under 递归包含所有子目录，删掉它不会构建失败，但留着可以说明
+# 其余 blob 的安装方式。
 
 LOCAL_PATH := $(call my-dir)

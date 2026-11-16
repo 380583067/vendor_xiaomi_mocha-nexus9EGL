@@ -20,31 +20,26 @@ $(call inherit-product, vendor/xiaomi/mocha/widevine/widevine.mk)
 
 # Blob
 #
-# Camera note - about libbeautify.so:
-#   The PRODUCT_COPY_FILES block below deliberately does not ship the stock
-#   vendor/xiaomi/mocha/proprietary/lib/libbeautify.so.
-#   Reason: libbeautify.so has libFaceProc.so in its DT_NEEDED, and that
-#   library contains TEXTREL, which the Android 6+ (API >= 23) linker refuses
-#   to load at all:
+# 修复说明（相机）—— 关于 libbeautify.so：
+#   下面这个 PRODUCT_COPY_FILES 块里**故意不再包含**原厂的
+#   vendor/xiaomi/mocha/proprietary/lib/libbeautify.so。
+#   原因：libbeautify.so 的 DT_NEEDED 里有 libFaceProc.so，而后者带 TEXTREL，
+#   Android 6+（API>=23）的 linker 直接拒绝加载它：
 #       dlopen failed: "/system/lib/libFaceProc.so" has text relocations
-#   That breaks the whole dependency chain of camera.vendor.tegra.so and the
-#   camera ends up reporting zero devices.
-#   Measurements show camera.vendor.tegra.so only really uses 17 symbols from
-#   libbeautify (SkinBeautifier::* / RecoFace* / android::Watermark - all of
-#   them beauty / face / watermark effects), and neither preview, capture, 3A,
-#   flash, HDR nor video recording go through them. Those symbols are provided
-#   by device/xiaomi/mocha/camera/libbeautify_stub.cpp as safe no-op
-#   implementations, built as /system/lib/libbeautify.so of the same name (see
-#   the libbeautify module in camera/Android.mk and PRODUCT_PACKAGES in
-#   mocha.mk).
-#   To revert: drop the libbeautify module from camera/Android.mk and its
-#   PRODUCT_PACKAGES entry in mocha.mk, then add this line back here:
+#   于是 camera.vendor.tegra.so 的整条依赖链断掉，相机设备数变成 0。
+#   而实测 camera.vendor.tegra.so 真正用到 libbeautify 的只有 17 个符号
+#   （SkinBeautifier::* / RecoFace* / android::Watermark，全部是美颜/人脸/水印，
+#   取景、拍照、3A、闪光灯、HDR、录像都不经过它），这些符号已由
+#   device/xiaomi/mocha/camera/libbeautify_stub.cpp 实现为安全降级版本，
+#   编译产物是同名的 /system/lib/libbeautify.so（见 camera/Android.mk 的
+#   libbeautify 模块 + mocha.mk 的 PRODUCT_PACKAGES）。
+#   回退方法：删掉 camera/Android.mk 里的 libbeautify 模块和 mocha.mk 里对应的
+#   PRODUCT_PACKAGES 条目，再把下面这行加回 PRODUCT_COPY_FILES：
 #       vendor/xiaomi/mocha/proprietary/lib/libbeautify.so:system/lib/libbeautify.so \
-#   (The stock blob itself is untouched and still in proprietary/lib/.)
+#   （原厂 blob 文件本身没有删除，仍在 proprietary/lib/ 下。）
 #
-# NOTE: this file is one huge continuation-line assignment - every line but the
-#       last ends with a backslash, so no comment line may be inserted inside
-#       the block, it would swallow every following entry.
+# 注意：本文件是一个超长续行赋值，中间的每一行结尾都是反斜杠，
+#       任何 "# 注释行" 都不能插进块里面，否则会把后续所有条目吞掉。
 PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/etc/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt \
     vendor/xiaomi/mocha/proprietary/etc/enctune.conf:system/etc/enctune.conf \
@@ -136,6 +131,7 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/memtrack.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/memtrack.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/thermal.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/thermal.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/vulkan.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/vulkan.tegra.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/hw/vulkan.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/vulkan.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/keystore.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/keystore.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/power.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/power.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/sound_trigger.primary.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/sound_trigger.primary.tegra.so \
@@ -154,6 +150,7 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libdrmdecrypt.so:$(TARGET_COPY_OUT_VENDOR)/lib/libdrmdecrypt.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libfcamdng.so:$(TARGET_COPY_OUT_VENDOR)/lib/libfcamdng.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libglcore.so:$(TARGET_COPY_OUT_VENDOR)/lib/libglcore.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/libvkcore.so:$(TARGET_COPY_OUT_VENDOR)/lib/libvkcore.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libgov_boot.so:$(TARGET_COPY_OUT_VENDOR)/lib/libgov_boot.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libgov_camera.so:$(TARGET_COPY_OUT_VENDOR)/lib/libgov_camera.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libgov_combinator.so:$(TARGET_COPY_OUT_VENDOR)/lib/libgov_combinator.so \
