@@ -125,7 +125,7 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/bin/ss_status:$(TARGET_COPY_OUT_VENDOR)/bin/ss_status \
     vendor/xiaomi/mocha/proprietary/vendor/lib/drm/libdrmwvmplugin.so:$(TARGET_COPY_OUT_VENDOR)/lib/drm/libdrmwvmplugin.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/gralloc.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/gralloc.nvgpu.so \
-    vendor/xiaomi/mocha/proprietary/vendor/lib/hw/hwcomposer.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/hwcomposer.tegra.so \
+    vendor/xiaomi/mocha/proprietary/vendor/lib/hw/hwcomposer.tegra_legacy.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/hwcomposer.tegra_legacy.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/hdmi_cec.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/hdmi_cec.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/pbc.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/pbc.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/memtrack.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/memtrack.tegra.so \
