@@ -133,7 +133,6 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/vulkan.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/vulkan.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/vulkan.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/vulkan.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/keystore.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/keystore.tegra.so \
-    vendor/xiaomi/mocha/proprietary/vendor/lib/hw/power.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/power.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/hw/sound_trigger.primary.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/sound_trigger.primary.tegra.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libEGL_perfhud.so:$(TARGET_COPY_OUT_VENDOR)/lib/libEGL_perfhud.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libEGL_tegra_impl.so:$(TARGET_COPY_OUT_VENDOR)/lib/libEGL_tegra_impl.so \
