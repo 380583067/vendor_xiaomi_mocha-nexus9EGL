@@ -33,3 +33,17 @@ LOCAL_CERTIFICATE := platform
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_PRODUCT_MODULE := true
 include $(BUILD_PREBUILT)
+
+# 【2026-11-23】KernelSU 管理器预置：内核已带 KSU v3.3.1
+# （kernel 分支 lineageos-21-KernelSU，CONFIG_KSU=y），系统里必须有管理器
+# 才能授权。APK 从测试设备拉取（me.weishu.kernelsu）。
+include $(CLEAR_VARS)
+LOCAL_MODULE := KernelSU
+LOCAL_MODULE_OWNER := xiaomi
+LOCAL_SRC_FILES := app/kernelsu/KernelSU.apk
+LOCAL_MODULE_CLASS := APPS
+LOCAL_MODULE_TAGS := optional
+LOCAL_CERTIFICATE := platform
+LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+LOCAL_PRODUCT_MODULE := true
+include $(BUILD_PREBUILT)
