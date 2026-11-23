@@ -13,46 +13,14 @@
 # limitations under the License.
 
 # proprietary/ 下的所有预编译文件，要么由 mocha-vendor-blobs.mk 通过
-# PRODUCT_COPY_FILES 安装，要么由 widevine/Android.mk 安装，要么由下面
-# 的模块定义安装。
+# PRODUCT_COPY_FILES 安装，要么由 widevine/Android.mk 安装，这里不再定义
+# APK 模块。
 #
-# 【2026-11-23】OpenCamera 与 KernelSU 管理器预置为 BUILD_PREBUILT，两条
-# 铁律（都是实测踩出来的坑）：
-#   1. 必须 PRESIGNED —— platform 重签名会让 KSU 内核认不出管理器；
-#   2. 必须 LOCAL_DEX_PREOPT := false —— dexpreopt 重打包会剥掉 v2 签名，
-#      PackageManager 报 "No APK Signature Scheme v2 signature" 直接拒装。
-# 另外 COPY_FILES 不能装 APK（构建系统显式禁止），所以只能走模块。
+# 【2026-11-23】OpenCamera 与 KernelSU 管理器不做系统预置，开机后手动安装
+# （APK 保留在本目录 app/ 下，供 adb install / pm install）。预置踩坑记录：
+# platform 重签名 → KSU 内核认不出管理器；PRESIGNED → align-package 剥掉
+# v2 签名 pm 拒装；加 LOCAL_SDK_VERSION=current 触发 do_not_alter_apk 后
+# 又卡 check-jni-dex-compression（原始 APK 的 dex/JNI 是压缩的，构建要求
+# 非压缩）—— 原始签名 APK 与构建系统的预置管线天然冲突，放弃预置。
 
 LOCAL_PATH := $(call my-dir)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := OpenCamera
-LOCAL_MODULE_OWNER := xiaomi
-LOCAL_SRC_FILES := app/net.sourceforge.opencamera/net.sourceforge.opencamera.apk
-LOCAL_MODULE_CLASS := APPS
-LOCAL_MODULE_TAGS := optional
-LOCAL_CERTIFICATE := PRESIGNED
-LOCAL_DEX_PREOPT := false
-# 【关键】LOCAL_SDK_VERSION > 29（或 current）才会触发构建系统的
-# do_not_alter_apk：PRESIGNED 的 APK 原样复制、不重对齐。否则走
-# align-package 重写 zip，v2 签名被剥掉，PackageManager 直接拒装。
-LOCAL_SDK_VERSION := current
-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
-LOCAL_PRODUCT_MODULE := true
-include $(BUILD_PREBUILT)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := KernelSU
-LOCAL_MODULE_OWNER := xiaomi
-LOCAL_SRC_FILES := app/kernelsu/KernelSU.apk
-LOCAL_MODULE_CLASS := APPS
-LOCAL_MODULE_TAGS := optional
-LOCAL_CERTIFICATE := PRESIGNED
-LOCAL_DEX_PREOPT := false
-# 【关键】LOCAL_SDK_VERSION > 29（或 current）才会触发构建系统的
-# do_not_alter_apk：PRESIGNED 的 APK 原样复制、不重对齐。否则走
-# align-package 重写 zip，v2 签名被剥掉，PackageManager 直接拒装。
-LOCAL_SDK_VERSION := current
-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
-LOCAL_PRODUCT_MODULE := true
-include $(BUILD_PREBUILT)
