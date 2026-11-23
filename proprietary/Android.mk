@@ -13,17 +13,14 @@
 # limitations under the License.
 
 # proprietary/ 下的所有预编译文件，要么由 mocha-vendor-blobs.mk 通过
-# PRODUCT_COPY_FILES 安装，要么由 widevine/Android.mk 安装，这里不再定义模块。
+# PRODUCT_COPY_FILES 安装，要么由 widevine/Android.mk 安装，这里不再定义
+# APK 模块。
 #
-# 原先这里还定义过两个预编译 APK 模块：SimpleKeyboard
-# （app/keyboard/keyboard.apk）和 OpenCamera
-# （app/net.sourceforge.opencamera/net.sourceforge.opencamera.apk）。
-# 但这两个模块从来没有进过 PRODUCT_PACKAGES，也就是说它们永远不会被装进
-# 系统镜像，纯粹是仓库里 47MB 的死重量。现在 APK 和模块定义一起删掉了，
-# 键盘用 AOSP 自带的，相机用 LineageOS 自带的。
-#
-# 这个文件即使不定义任何模块也保留：vendor/xiaomi/mocha/Android.mk 用
-# all-makefiles-under 递归包含所有子目录，删掉它不会构建失败，但留着可以说明
-# 其余 blob 的安装方式。
+# 【2026-11-23】OpenCamera 与 KernelSU 管理器不做系统预置，开机后手动安装
+# （APK 保留在本目录 app/ 下，供 adb install / pm install）。预置踩坑记录：
+# platform 重签名 → KSU 内核认不出管理器；PRESIGNED → align-package 剥掉
+# v2 签名 pm 拒装；加 LOCAL_SDK_VERSION=current 触发 do_not_alter_apk 后
+# 又卡 check-jni-dex-compression（原始 APK 的 dex/JNI 是压缩的，构建要求
+# 非压缩）—— 原始签名 APK 与构建系统的预置管线天然冲突，放弃预置。
 
 LOCAL_PATH := $(call my-dir)
