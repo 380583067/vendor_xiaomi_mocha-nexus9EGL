@@ -33,6 +33,10 @@ LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_TAGS := optional
 LOCAL_CERTIFICATE := PRESIGNED
 LOCAL_DEX_PREOPT := false
+# 【关键】LOCAL_SDK_VERSION > 29（或 current）才会触发构建系统的
+# do_not_alter_apk：PRESIGNED 的 APK 原样复制、不重对齐。否则走
+# align-package 重写 zip，v2 签名被剥掉，PackageManager 直接拒装。
+LOCAL_SDK_VERSION := current
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_PRODUCT_MODULE := true
 include $(BUILD_PREBUILT)
@@ -45,6 +49,10 @@ LOCAL_MODULE_CLASS := APPS
 LOCAL_MODULE_TAGS := optional
 LOCAL_CERTIFICATE := PRESIGNED
 LOCAL_DEX_PREOPT := false
+# 【关键】LOCAL_SDK_VERSION > 29（或 current）才会触发构建系统的
+# do_not_alter_apk：PRESIGNED 的 APK 原样复制、不重对齐。否则走
+# align-package 重写 zip，v2 签名被剥掉，PackageManager 直接拒装。
+LOCAL_SDK_VERSION := current
 LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
 LOCAL_PRODUCT_MODULE := true
 include $(BUILD_PREBUILT)
