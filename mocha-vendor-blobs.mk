@@ -20,26 +20,35 @@ $(call inherit-product, vendor/xiaomi/mocha/widevine/widevine.mk)
 
 # Blob
 #
-# 修复说明（相机）—— 关于 libbeautify.so：
-#   下面这个 PRODUCT_COPY_FILES 块里**故意不再包含**原厂的
-#   vendor/xiaomi/mocha/proprietary/lib/libbeautify.so。
-#   原因：libbeautify.so 的 DT_NEEDED 里有 libFaceProc.so，而后者带 TEXTREL，
-#   Android 6+（API>=23）的 linker 直接拒绝加载它：
+# [camera fix - about libbeautify.so]
+#   The PRODUCT_COPY_FILES block below deliberately does NOT install the vendor
+#   vendor/xiaomi/mocha/proprietary/lib/libbeautify.so.
+#   Reason: libbeautify.so has libFaceProc.so in its DT_NEEDED, and that library
+#   carries TEXTREL, which the linker rejects from Android 6 (API>=23) on:
 #       dlopen failed: "/system/lib/libFaceProc.so" has text relocations
-#   于是 camera.vendor.tegra.so 的整条依赖链断掉，相机设备数变成 0。
-#   而实测 camera.vendor.tegra.so 真正用到 libbeautify 的只有 17 个符号
-#   （SkinBeautifier::* / RecoFace* / android::Watermark，全部是美颜/人脸/水印，
-#   取景、拍照、3A、闪光灯、HDR、录像都不经过它），这些符号已由
-#   device/xiaomi/mocha/camera/libbeautify_stub.cpp 实现为安全降级版本，
-#   编译产物是同名的 /system/lib/libbeautify.so（见 camera/Android.mk 的
-#   libbeautify 模块 + mocha.mk 的 PRODUCT_PACKAGES）。
-#   回退方法：删掉 camera/Android.mk 里的 libbeautify 模块和 mocha.mk 里对应的
-#   PRODUCT_PACKAGES 条目，再把下面这行加回 PRODUCT_COPY_FILES：
+#   so the whole dependency chain of camera.vendor.tegra.so breaks and the camera
+#   count drops to 0. Measured, camera.vendor.tegra.so uses only 17 symbols from
+#   libbeautify (SkinBeautifier::* / RecoFace* / android::Watermark - all beautify,
+#   face detection and watermark; preview, still capture, 3A, flash, HDR and
+#   recording never touch it), and those are implemented as safe no-ops in
+#   device/xiaomi/mocha/camera/libbeautify_stub.cpp, installed under the same name
+#   /system/lib/libbeautify.so (see the libbeautify module in camera/Android.mk and
+#   the PRODUCT_PACKAGES entry in mocha.mk).
+#   To go back: drop the libbeautify module from camera/Android.mk and its
+#   PRODUCT_PACKAGES entry from mocha.mk, then add this line back to
+#   PRODUCT_COPY_FILES:
 #       vendor/xiaomi/mocha/proprietary/lib/libbeautify.so:system/lib/libbeautify.so \
-#   （原厂 blob 文件本身没有删除，仍在 proprietary/lib/ 下。）
+#   (the vendor blob itself was not deleted, it is still in proprietary/lib/.)
 #
-# 注意：本文件是一个超长续行赋值，中间的每一行结尾都是反斜杠，
-#       任何 "# 注释行" 都不能插进块里面，否则会把后续所有条目吞掉。
+#   libFaceProc.so used to be copied to /system/lib even though nothing loads it:
+#   its only consumer was libbeautify.so, which is replaced by the stub, and the
+#   library cannot be loaded on this API level at all because of TEXTREL. That copy
+#   rule is gone, which keeps 3.2 MB out of the image. The file stays in
+#   proprietary/lib/ next to libbeautify.so, so the fallback above still works.
+#
+# Note: this file is one huge continued assignment, every line ends with a
+#       backslash. Never insert a "# comment" line inside the block, it would
+#       swallow all the entries that follow.
 PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/etc/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt \
     vendor/xiaomi/mocha/proprietary/etc/enctune.conf:system/etc/enctune.conf \
@@ -94,7 +103,6 @@ PRODUCT_COPY_FILES += \
     vendor/xiaomi/mocha/proprietary/lib/hw/lights.tegra.so:$(TARGET_COPY_OUT_VENDOR)/lib/hw/lights.tegra.so \
     vendor/xiaomi/mocha/proprietary/lib/libsensors.lsm6db0.so:$(TARGET_COPY_OUT_VENDOR)/lib/libsensors.lsm6db0.so \
     vendor/xiaomi/mocha/proprietary/lib/libsensors.mpu6515.so:$(TARGET_COPY_OUT_VENDOR)/lib/libsensors.mpu6515.so \
-    vendor/xiaomi/mocha/proprietary/lib/libFaceProc.so:system/lib/libFaceProc.so \
     vendor/xiaomi/mocha/proprietary/lib/hw/ts.default.so:system/lib/hw/ts.default.so \
     vendor/xiaomi/mocha/proprietary/vendor/lib/libbt-client-api.so:$(TARGET_COPY_OUT_VENDOR)/lib/libbt-client-api.so \
     vendor/xiaomi/mocha/proprietary/lib/libinvensense_hal.so:system/lib/libinvensense_hal.so \

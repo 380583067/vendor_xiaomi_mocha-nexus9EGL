@@ -12,15 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# proprietary/ 下的所有预编译文件，要么由 mocha-vendor-blobs.mk 通过
-# PRODUCT_COPY_FILES 安装，要么由 widevine/Android.mk 安装，这里不再定义
-# APK 模块。
+# Every prebuilt under proprietary/ is installed either by mocha-vendor-blobs.mk
+# through PRODUCT_COPY_FILES or by widevine/Android.mk; no APK modules are defined
+# here.
 #
-# 【2026-11-23】OpenCamera 与 KernelSU 管理器不做系统预置，开机后手动安装
-# （APK 保留在本目录 app/ 下，供 adb install / pm install）。预置踩坑记录：
-# platform 重签名 → KSU 内核认不出管理器；PRESIGNED → align-package 剥掉
-# v2 签名 pm 拒装；加 LOCAL_SDK_VERSION=current 触发 do_not_alter_apk 后
-# 又卡 check-jni-dex-compression（原始 APK 的 dex/JNI 是压缩的，构建要求
-# 非压缩）—— 原始签名 APK 与构建系统的预置管线天然冲突，放弃预置。
+# [2026-11-23] OpenCamera and the KernelSU manager are not preset; install them by
+# hand after boot (the APKs stay in app/ for adb install / pm install). What went
+# wrong when presetting them:
+# platform re-sign -> the KSU kernel no longer recognises the manager; PRESIGNED ->
+# align-package strips the v2 signature and pm refuses the package; adding
+# LOCAL_SDK_VERSION=current triggers do_not_alter_apk and then fails
+# check-jni-dex-compression (the original APK has compressed dex/JNI, the build
+# wants them uncompressed) - an original-signature APK fundamentally conflicts with
+# the build's preset pipeline, so presetting was dropped.
 
 LOCAL_PATH := $(call my-dir)
